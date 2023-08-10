@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import ConfirmBox from "./ConfirmBox";
 
 const Read = () => {
   const [data, setData] = useState([]);
+
+  const [open, setOpen] = useState(false);
+
+  const [deleteData, setDeleteData] = useState(false);
 
   function getData() {
     axios
@@ -17,12 +22,19 @@ const Read = () => {
     getData();
   }, []);
 
-  function handleDelete(id) {
+  function handleDelete() {
     axios
-      .delete(`https://64c780cf0a25021fde92945e.mockapi.io/crud/${id}`)
+      .delete(
+        `https://64c780cf0a25021fde92945e.mockapi.io/crud/${deleteData?.id}`
+      )
       .then(() => {
         getData();
       });
+  }
+
+  function openDelete(data) {
+    setOpen(true);
+    setDeleteData(data);
   }
 
   useEffect(() => {
@@ -82,7 +94,7 @@ const Read = () => {
                   <td>
                     <button
                       className="btn-failure"
-                      onClick={() => handleDelete(eachData.id)}
+                      onClick={() => openDelete(eachData)}
                     >
                       Delete
                     </button>
@@ -93,6 +105,13 @@ const Read = () => {
           );
         })}
       </table>
+
+      <ConfirmBox
+        open={open}
+        closeDialog={() => setOpen(false)}
+        title={deleteData?.name}
+        deleteFunc={handleDelete}
+      />
     </>
   );
 };
