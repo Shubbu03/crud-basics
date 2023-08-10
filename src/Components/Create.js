@@ -58,7 +58,7 @@ const Create = () => {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          {errorN ? (
+          {errorN && name.length<=0? (
             <label className="label-war">First Name can't be empty!!</label>
           ) : (
             ""
@@ -78,7 +78,7 @@ const Create = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          {errorEm ? (
+          {errorEm && email.length<=0? (
             <label className="label-war">Email can't be empty!!</label>
           ) : (
             ""
