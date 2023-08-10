@@ -29,6 +29,7 @@ const Read = () => {
       )
       .then(() => {
         getData();
+        setOpen(false);
       });
   }
 
