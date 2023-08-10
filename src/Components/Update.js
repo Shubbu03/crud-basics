@@ -6,6 +6,8 @@ const Update = () => {
   const [id, setId] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [errorName1, setErrorName1] = useState(false);
+  const [errorEmail1, setErrorEmail1] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,16 +18,27 @@ const Update = () => {
 
   function handleUpdate(e) {
     e.preventDefault();
-   
-    axios
-      .put(`https://64c780cf0a25021fde92945e.mockapi.io/crud/${id}`, {
-        name: name,
-        email: email,
-      })
-      .then(() => {
-        navigate("/read");
-      });
+
+    if (name.length == 0) {
+      setErrorName1(true);
+    }
+
+    if (email.length == 0) {
+      setErrorEmail1(true);
+    }
+
+    if (errorName1 || errorEmail1) {
+      axios
+        .put(`https://64c780cf0a25021fde92945e.mockapi.io/crud/${id}`, {
+          name: name,
+          email: email,
+        })
+        .then(() => {
+          navigate("/read");
+        });
+    }
   }
+
   return (
     <>
       <form>
@@ -35,6 +48,7 @@ const Update = () => {
             <label for="exampleInputPassword1" class="form-label">
               Name
             </label>
+
             <input
               type="text"
               class="form-control"
@@ -42,6 +56,12 @@ const Update = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
+
+            {errorName1 ? (
+              <label className="label-war">First Name can't be empty!!</label>
+            ) : (
+              ""
+            )}
           </div>
           <label for="exampleInputEmail1" class="form-label">
             Email address
@@ -54,6 +74,13 @@ const Update = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+
+          {errorEmail1 ? (
+            <label className="label-war">Email can't be empty!!</label>
+          ) : (
+            ""
+          )}
+
           <div id="emailHelp" class="form-text">
             We'll never share your email with anyone else.
           </div>
@@ -62,6 +89,10 @@ const Update = () => {
         <button type="submit" class="btn btn-primary" onClick={handleUpdate}>
           Update
         </button>
+
+        {/* <button type="submit" class="btn btn-primary">
+          Update
+        </button> */}
       </form>
     </>
   );

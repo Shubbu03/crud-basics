@@ -1,0 +1,15 @@
+*{
+    text-align: center;
+}
+div{
+    padding:8px
+}
+input{
+    height:30px;
+    width: 30%;
+
+}
+.label-war{
+    color:red;
+
+}

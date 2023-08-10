@@ -1,28 +1,41 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-
+import "./Create.css";
 
 const Create = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [errorN, setErrorN] = useState(false);
+  const [errorEm, setErrorEm] = useState(false);
   const history = useNavigate();
 
   const header = { "Access-Control-Allow-Origin": "*" };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("https://64c780cf0a25021fde92945e.mockapi.io/crud", {
-        name: name,
-        email: email,
-        header,
-      })
+    if (name.length == 0) {
+      setErrorN(true);
+    }
 
-      .then(() => {
-        history("/read");
-      });
+    if (email.length == 0) {
+      setErrorEm(true);
+    }
+
+    if (errorN && errorEm) {
+      axios
+        .post("https://64c780cf0a25021fde92945e.mockapi.io/crud", {
+          name: name,
+          email: email,
+          header,
+        })
+
+        .then(() => {
+          history("/read");
+        });
+    }
   };
+
   return (
     <>
       <form>
@@ -45,9 +58,18 @@ const Create = () => {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <label for="exampleInputEmail1" class="form-label">
-            Email address
-          </label>
+          {errorN ? (
+            <label className="label-war">First Name can't be empty!!</label>
+          ) : (
+            ""
+          )}
+
+          <div>
+            <label for="exampleInputEmail1" class="form-label">
+              Email address
+            </label>
+          </div>
+
           <input
             type="email"
             class="form-control"
@@ -55,6 +77,13 @@ const Create = () => {
             aria-describedby="emailHelp"
             onChange={(e) => setEmail(e.target.value)}
           />
+
+          {errorEm ? (
+            <label className="label-war">Email can't be empty!!</label>
+          ) : (
+            ""
+          )}
+
           <div id="emailHelp" class="form-text">
             We'll never share your email with anyone else.
           </div>
@@ -63,6 +92,10 @@ const Create = () => {
         <button type="submit" class="btn btn-primary" onClick={handleSubmit}>
           Submit
         </button>
+
+        {/* <button type="submit" class="btn btn-primary">
+          Submit
+        </button> */}
       </form>
     </>
   );
