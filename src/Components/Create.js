@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./Create.css";
+import InputField from "./InputField";
 
 const Create = () => {
   const [values, setValues] = useState({ name: "", email: "" });
@@ -12,30 +13,7 @@ const Create = () => {
 
   const header = { "Access-Control-Allow-Origin": "*" };
 
-  // const handleSubmit = () => {
-
-  //   console.log("hi from handl");
-  //   if (!errors) {
-  //     axios
-  //       .post("https://64c780cf0a25021fde92945e.mockapi.io/crud", {
-  //         name: name,
-  //         email: email,
-  //         header,
-  //       })
-
-  //       .then(() => {
-  //         history("/read");
-  //       });
-  //   }
-  // };
-
-  const validate = (e) => {
-    e.preventDefault();
-
-    if (values.name.length == 0 && values.email.length == 0) {
-      setErrors(true);
-    }
-
+  const handleSubmit = () => {
     if (errors) {
       axios
         .post("https://64c780cf0a25021fde92945e.mockapi.io/crud", {
@@ -48,6 +26,16 @@ const Create = () => {
           history("/read");
         });
     }
+  };
+
+  const validate = (e) => {
+    e.preventDefault();
+
+    if (values.name.length == 0 && values.email.length == 0) {
+      setErrors(true);
+    }
+
+    setTimeout(handleSubmit, 1000);
   };
 
   return (
@@ -103,6 +91,8 @@ const Create = () => {
           <div id="emailHelp" class="form-text">
             We'll never share your email with anyone else.
           </div>
+
+          {/* <InputField  /> */}
         </div>
 
         <button type="submit" class="btn btn-primary" onClick={validate}>

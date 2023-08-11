@@ -26,6 +26,10 @@ const Update = () => {
       setUpdateError(true);
     }
 
+    setTimeout(updateValidation, 1000);
+  }
+
+  function updateValidation() {
     if (updateError) {
       axios
         .put(`https://64c780cf0a25021fde92945e.mockapi.io/crud/${id}`, {
