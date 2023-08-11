@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./Create.css";
-import InputField from "./InputField";
+// import InputField from "./InputField";
 
 const Create = () => {
   const [values, setValues] = useState({ name: "", email: "" });
